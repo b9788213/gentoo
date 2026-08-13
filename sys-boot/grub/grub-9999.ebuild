@@ -77,7 +77,7 @@ SRC_URI+="
 # Includes licenses for dejavu and unifont
 LICENSE="GPL-3+ BSD MIT fonts? ( GPL-2-with-font-exception ) themes? ( CC-BY-SA-3.0 BitstreamVera )"
 SLOT="2/${PVR}"
-IUSE="+branding +device-mapper doc efiemu +fonts mount nls protect sdl test +themes truetype libzfs"
+IUSE="+branding +device-mapper doc efiemu +fonts +kbdcomp mount nls protect sdl test +themes truetype libzfs"
 
 GRUB_ALL_PLATFORMS=( coreboot efi-32 efi-64 emu ieee1275 loongson multiboot
 	qemu qemu-mips pc uboot xen xen-32 xen-pvh )
@@ -138,6 +138,7 @@ RDEPEND="${DEPEND}
 	)
 	!sys-boot/grub:0
 	nls? ( sys-devel/gettext )
+	kbdcomp? ( sys-apps/ckbcomp )
 "
 
 RESTRICT="!test? ( test ) test? ( userpriv )"
@@ -229,6 +230,7 @@ grub_configure() {
 		--program-prefix=
 		--libdir="${EPREFIX}"/usr/lib
 		$(use_enable device-mapper)
+		$(use_enable kbdcomp grub-kbdcomp)
 		$(use_enable mount grub-mount)
 		$(use_enable nls)
 		$(use_enable protect grub-protect)
